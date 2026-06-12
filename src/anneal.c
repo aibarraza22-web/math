@@ -173,6 +173,8 @@ static int load_graph6(const char *str) {
 
 static char seedlines[1024][512];
 static int nseeds = 0;
+static double T0 = 50.0;       /* much colder when starting from seeds */
+static int evalmode = 0;
 
 static void init_state(void) {
     if (nseeds > 0) {
@@ -201,12 +203,24 @@ int main(int argc, char **argv) {
             while (nseeds < 1024 && fscanf(fp, "%511s", seedlines[nseeds]) == 1) nseeds++;
             fclose(fp);
             fprintf(stderr, "loaded %d seed graphs\n", nseeds);
+            T0 = 1.5;
         }
+        else if (!strcmp(argv[i], "--T0") && i + 1 < argc) T0 = atof(argv[++i]);
+        else if (!strcmp(argv[i], "--eval")) evalmode = 1;
+    }
+
+    if (evalmode) {
+        /* print the objective of every seed graph and exit */
+        for (int k = 0; k < nseeds; k++) {
+            if (load_graph6(seedlines[k]) != 0) { fprintf(stderr, "bad seed %d\n", k); continue; }
+            printf("%lld %s\n", objective(), seedlines[k]);
+        }
+        return 0;
     }
 
     init_state();
     long long f = objective(), best = f;
-    double T = 50.0;
+    double T = T0;
     long long since_improve = 0;
     int beu[3*MAXN/2], bev[3*MAXN/2];     /* best graph seen */
     memcpy(beu, eu, sizeof(beu)); memcpy(bev, ev, sizeof(bev));
@@ -242,7 +256,7 @@ int main(int argc, char **argv) {
                         init_state();
                         f = objective(); best = f;
                         memcpy(beu, eu, sizeof(beu)); memcpy(bev, ev, sizeof(bev));
-                        T = 50.0; since_improve = 0;
+                        T = T0; since_improve = 0;
                         continue;
                     }
                     printf("COUNTEREXAMPLE ");
@@ -264,12 +278,12 @@ int main(int argc, char **argv) {
              * full random restart to keep exploring new basins */
             if (++reheats % 5 == 0) {
                 init_state();
-                T = 50.0;
+                T = T0;
                 fprintf(stderr, "iter=%lld RESTART (best so far %lld)\n", it, best);
             } else {
                 memcpy(eu, beu, sizeof(beu)); memcpy(ev, bev, sizeof(bev));
                 rebuild_from_edges();
-                T = 3.0;
+                T = T0 < 3.0 ? T0 : 3.0;
                 fprintf(stderr, "iter=%lld REHEAT from best=%lld\n", it, best);
             }
             f = objective();
