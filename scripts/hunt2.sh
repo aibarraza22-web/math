@@ -15,4 +15,8 @@ nauty-shortg -q "/tmp/p1_n$N.raw" "results/hunt/seeds_n$N.g6" 2>/dev/null
     | sort -n > "results/hunt/seeds_n${N}_eval.txt"
 echo "n=$N: $(wc -l < "results/hunt/seeds_n$N.g6") distinct C4+C8-free graphs;"
 echo "  best full objective (#C16+#C32): $(head -1 "results/hunt/seeds_n${N}_eval.txt" | cut -d' ' -f1)"
-grep -l '^0 ' "results/hunt/seeds_n${N}_eval.txt" && echo "!!! COUNTEREXAMPLE CANDIDATE !!!"
+if grep -q '^0 ' "results/hunt/seeds_n${N}_eval.txt"; then
+  echo "!!! COUNTEREXAMPLE CANDIDATE !!!"
+  grep '^0 ' "results/hunt/seeds_n${N}_eval.txt"
+fi
+exit 0
