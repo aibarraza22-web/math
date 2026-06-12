@@ -89,10 +89,13 @@ static long long count_cycles(int L) {
 
 #define C16_PROXY 50000LL
 
+static int phase1 = 0;   /* minimize only C4+C8, ignore longer cycles */
+
 static long long objective(void) {
     long long c4 = count_cycles(4);
     long long c8 = count_cycles(8);
     long long f = 10000*c4 + 100*c8;
+    if (phase1) return f;
     if (c4 + c8 <= 6) {
         f += count_cycles(16);
         if (n >= 32) f += count_cycles(32);
@@ -146,14 +149,62 @@ static void print_graph6(FILE *fp) {
     fprintf(fp, "%s\n", buf);
 }
 
+/* parse a graph6 line into the edge list; returns 0 on success */
+static int load_graph6(const char *str) {
+    const unsigned char *p = (const unsigned char *)str;
+    int nn = *p - 63;
+    if (nn != n) return -1;
+    p++;
+    memset(adj, 0, sizeof(adj));
+    nedges = 0;
+    unsigned int cur = 0; int curbits = 0;
+    for (int col = 1; col < n; col++)
+        for (int row = 0; row < col; row++) {
+            if (curbits == 0) { if (*p < 63) return -1; cur = *p - 63; curbits = 6; p++; }
+            if (cur & (1u << (curbits - 1))) {
+                eu[nedges] = row; ev[nedges] = col; nedges++;
+            }
+            curbits--;
+        }
+    if (nedges != 3 * n / 2) return -1;
+    rebuild_from_edges();
+    return 0;
+}
+
+static char seedlines[1024][512];
+static int nseeds = 0;
+
+static void init_state(void) {
+    if (nseeds > 0) {
+        int k = rnd(nseeds);
+        if (load_graph6(seedlines[k]) == 0) return;
+        fprintf(stderr, "bad seed line %d\n", k);
+        exit(1);
+    }
+    random_cubic();
+}
+
 int main(int argc, char **argv) {
-    if (argc < 4) { fprintf(stderr, "usage: anneal n seed iters\n"); return 1; }
+    if (argc < 4) {
+        fprintf(stderr, "usage: anneal n seed iters [--phase1] [--seeds file]\n");
+        return 1;
+    }
     n = atoi(argv[1]);
     rng_state = strtoull(argv[2], 0, 10) * 0x9E3779B97F4A7C15ULL + 1;
     long long iters = atoll(argv[3]);
     if (n % 2 || n < 4 || n > MAXN) { fprintf(stderr, "bad n\n"); return 1; }
+    for (int i = 4; i < argc; i++) {
+        if (!strcmp(argv[i], "--phase1")) phase1 = 1;
+        else if (!strcmp(argv[i], "--seeds") && i + 1 < argc) {
+            FILE *fp = fopen(argv[++i], "r");
+            if (!fp) { perror("seeds"); return 1; }
+            while (nseeds < 1024 && fscanf(fp, "%511s", seedlines[nseeds]) == 1) nseeds++;
+            fclose(fp);
+            fprintf(stderr, "loaded %d seed graphs\n", nseeds);
+        }
+    }
 
-    random_cubic();
+    init_state();
     long long f = objective(), best = f;
     double T = 50.0;
     long long since_improve = 0;
@@ -182,6 +233,18 @@ int main(int argc, char **argv) {
                 since_improve = 0;
                 fprintf(stderr, "iter=%lld T=%.3f best=%lld\n", it, T, best);
                 if (best == 0) {
+                    if (phase1) {
+                        /* found a C4+C8-free graph: record it and keep
+                         * hunting for more from a fresh start */
+                        printf("C8FREE ");
+                        print_graph6(stdout);
+                        fflush(stdout);
+                        init_state();
+                        f = objective(); best = f;
+                        memcpy(beu, eu, sizeof(beu)); memcpy(bev, ev, sizeof(bev));
+                        T = 50.0; since_improve = 0;
+                        continue;
+                    }
                     printf("COUNTEREXAMPLE ");
                     print_graph6(stdout);
                     fflush(stdout);
@@ -200,7 +263,7 @@ int main(int argc, char **argv) {
             /* mostly reheat from the best graph seen; occasionally do a
              * full random restart to keep exploring new basins */
             if (++reheats % 5 == 0) {
-                random_cubic();
+                init_state();
                 T = 50.0;
                 fprintf(stderr, "iter=%lld RESTART (best so far %lld)\n", it, best);
             } else {
