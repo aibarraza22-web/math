@@ -99,8 +99,24 @@ needs only to avoid C4, C8, C16):
   an abundance of 16-cycles — the same rigidity visible at n = 24, where
   only four C4+C8-free graphs exist and all contain 16-cycles.
 
-The same pipeline at n = 36, 48, 62 (where 32-cycles are also forbidden)
-is in `scripts/hunt2.sh`; see `results/hunt/`.
+The same pipeline at larger sizes (where 32-cycles are also forbidden)
+shows the gap to a counterexample *widening* with n:
+
+| n | distinct C4+C8-free cubic graphs found | min #C16+#C32 over all found (after phase-2 annealing) |
+|---|---|---|
+| 24 | 4 (exhaustive: these are all of them) | 207 |
+| 30 | 1,517 | 210 |
+| 36 | 10,328 | 2,250 |
+| 48 | 20,352 | > 100,000 (counting cap) |
+| 62 | 33,399 | > 100,000 (counting cap) |
+
+Avoiding 4- and 8-cycles gets easier as n grows, but every such graph
+found is saturated with 16- and 32-cycles, and the saturation grows
+rapidly with n. Across ~65,000 distinct C4+C8-free cubic graphs on
+24–62 vertices, **no graph came within two orders of magnitude of being
+a counterexample**. This quantifies, empirically, the rigidity the
+conjecture asserts: in a cubic graph, forbidding the short powers of 2
+forces long power-of-2 cycles in abundance.
 
 ## Reproducing
 
