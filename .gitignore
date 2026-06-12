@@ -1,3 +1,7 @@
 src/checker
 src/anneal
 __pycache__/
+# raw in-progress outputs; curated summaries are committed at milestones
+results/n*/part*
+results/hunt/*.log
+results/hunt/*.out

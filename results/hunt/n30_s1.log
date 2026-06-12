@@ -27,3 +27,20 @@ iter=45618 T=41.564 best=282
 iter=47507 T=41.253 best=264
 iter=77922 T=36.464 best=240
 iter=144141 T=27.888 best=210
+iter=636553 RESTART f=82000 (best so far 210)
+iter=1129724 RESTART f=71400 (best so far 210)
+iter=1623045 RESTART f=71000 (best so far 210)
+iter=2115927 RESTART f=61200 (best so far 210)
+iter=2609388 RESTART f=62000 (best so far 210)
+iter=3102882 RESTART f=81700 (best so far 210)
+iter=3169657 T=38.156 best=165
+iter=3661862 RESTART f=51900 (best so far 165)
+iter=4154885 RESTART f=61400 (best so far 165)
+iter=4648810 RESTART f=71100 (best so far 165)
+iter=5141830 RESTART f=81500 (best so far 165)
+iter=5635722 RESTART f=72000 (best so far 165)
+iter=6128545 RESTART f=62100 (best so far 165)
+iter=6621167 RESTART f=81700 (best so far 165)
+iter=7114244 RESTART f=81300 (best so far 165)
+iter=7606522 RESTART f=71800 (best so far 165)
+iter=8099778 RESTART f=71500 (best so far 165)
