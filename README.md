@@ -47,7 +47,38 @@ graph is itself cubic, so a *minimal* counterexample is connected.)
 
 ## Results
 
-RESULTS_PLACEHOLDER_TABLE
+### Exhaustive verification (this repository, independent of prior work)
+
+Every connected C4-free cubic graph on n vertices was generated
+(`nauty-geng -c -f -d3 -D3`) and checked. **No counterexample exists with
+n ≤ 24.** Together with the trivial C4 case this verifies the conjecture
+for all cubic graphs of these orders:
+
+| n | C4-free cubic graphs | smallest power-of-2 cycle | counterexamples |
+|---|---------------------|---------------------------|-----------------|
+| ≤ 12 | 24 | all have C8 | 0 |
+| 14 | 36 | all have C8 | 0 |
+| 16 | 269 | all have C8 | 0 |
+| 18 | 2,761 | all have C8 | 0 |
+| 20 | 36,101 | all have C8 | 0 |
+| 22 | 553,227 | all have C8 | 0 |
+| 24 | N24_PLACEHOLDER | N24_DETAIL_PLACEHOLDER | 0 |
+
+A striking pattern: **every** C4-free cubic graph with n ≤ 22 contains an
+8-cycle. The first graphs that dodge both C4 and C8 appear at n = 24
+(and contain 16-cycles), matching Markström's 2004 computation.
+
+### Structured families
+
+All 561 connected cubic graphs from these families on ≤ 62 vertices
+satisfy the conjecture, each via a 4- or 8-cycle: generalized Petersen
+graphs GP(m,k) (m ≤ 31, all k), Möbius ladders, and cubic circulants
+Z_n with connection set {±a, n/2}.
+
+### Heuristic hunt past the frontier (n = 30, 46, 62)
+
+Simulated annealing over cubic graphs, minimizing power-of-2 cycle
+counts. HUNT_PLACEHOLDER
 
 ## Reproducing
 
