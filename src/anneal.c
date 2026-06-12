@@ -157,6 +157,9 @@ int main(int argc, char **argv) {
     long long f = objective(), best = f;
     double T = 50.0;
     long long since_improve = 0;
+    int beu[3*MAXN/2], bev[3*MAXN/2];     /* best graph seen */
+    memcpy(beu, eu, sizeof(beu)); memcpy(bev, ev, sizeof(bev));
+    int reheats = 0;
 
     for (long long it = 0; it < iters; it++) {
         /* pick two disjoint edges and a rewiring */
@@ -175,6 +178,7 @@ int main(int argc, char **argv) {
             f = nf;
             if (f < best) {
                 best = f;
+                memcpy(beu, eu, sizeof(beu)); memcpy(bev, ev, sizeof(bev));
                 since_improve = 0;
                 fprintf(stderr, "iter=%lld T=%.3f best=%lld\n", it, T, best);
                 if (best == 0) {
@@ -192,12 +196,21 @@ int main(int argc, char **argv) {
         since_improve++;
         T *= 0.999995;
         if (T < 0.05) T = 0.05;
-        if (since_improve > 400000) {    /* restart */
-            random_cubic();
+        if (since_improve > 400000) {
+            /* mostly reheat from the best graph seen; occasionally do a
+             * full random restart to keep exploring new basins */
+            if (++reheats % 5 == 0) {
+                random_cubic();
+                T = 50.0;
+                fprintf(stderr, "iter=%lld RESTART (best so far %lld)\n", it, best);
+            } else {
+                memcpy(eu, beu, sizeof(beu)); memcpy(ev, bev, sizeof(bev));
+                rebuild_from_edges();
+                T = 3.0;
+                fprintf(stderr, "iter=%lld REHEAT from best=%lld\n", it, best);
+            }
             f = objective();
-            T = 50.0;
             since_improve = 0;
-            fprintf(stderr, "iter=%lld RESTART f=%lld (best so far %lld)\n", it, f, best);
         }
     }
     fprintf(stderr, "done: best=%lld\n", best);
