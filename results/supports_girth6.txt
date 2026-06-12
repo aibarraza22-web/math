@@ -1,0 +1,16 @@
+=== supports with N16 > 0 (girth >= 6, no C8, e <= 16) ===
+N16=    96  v=11 e=13 cycles=[6, 7, 9, 10]           J?AAD?wTCS?
+N16=    96  v=12 e=14 cycles=[6, 7, 10, 12]           K??ED@OB?qCc
+N16=    64  v=10 e=11 cycles=[6, 10] bipartite I?BDA_ge?
+N16=    64  v=12 e=14 cycles=[6, 7, 9]           K??ED?WDB_@o
+N16=    64  v=12 e=14 cycles=[6, 10] bipartite K??ED?WDBOP_
+N16=    64  v=12 e=13 cycles=[6, 10] bipartite K?AA@AOEBO?w
+N16=    64  v=13 e=14 cycles=[6] bipartite L???EA_E?gKOB_
+N16=    64  v=14 e=15 cycles=[7]           M??CAA_K?cH?B?`O?
+N16=    32  v=10 e=11 cycles=[6, 7, 9]           I?AE@`gF?
+N16=    32  v=12 e=13 cycles=[7, 9, 10]           K??CB@OBDOAo
+N16=    32  v=13 e=14 cycles=[6, 10, 12] bipartite L???EA_S?WDOD_
+N16=    32  v=13 e=14 cycles=[7, 9, 12]           L??CAA_S@OB_@o
+N16=    32  v=14 e=15 cycles=[6, 10, 14] bipartite M???EA_S@OA_A_P_?
+N16=    32  v=14 e=15 cycles=[7, 9, 14]           M???EA_S@OA_A_@o?
+total types: 14

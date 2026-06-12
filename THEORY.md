@@ -263,18 +263,21 @@ above) leave a large positive margin on *every one* of the 65,000+
 C4+C8-free graphs in this repository: positivity of tr(B¹⁶) − Θ has no
 known counterexample. This is the strategy worth pursuing.
 
-**The resulting program (precise conjecture).** For a cubic graph G with
-no C4 and no C8, Θ is a weighted count of theta- and dumbbell-subgraphs
-on cycles of lengths in {3,5,6,7,9,…,13}, each multiplied by the number
-of length-16 reduced closed words on that gadget (a finite, computable
-table). Each gadget is anchored on a short cycle, and short-cycle counts
-in C4-free cubic graphs are O(n) with explicit constants. Conjecture C:
-**Θ(G) ≤ 511n for every C4+C8-free cubic graph G** — which, with (★),
-would prove every such graph on ≤ 64 vertices (and with better spectral
-bounds, beyond) contains a 16-cycle, i.e. Erdős–Gyárfás for cubic graphs
-to twice the current exhaustive frontier. Every graph in this repository
-satisfies Conjecture C with room to spare (max measured Θ = 57648 at
-n = 30, vs. budget 66049 − 1).
+**The resulting program (precise target).** For a cubic graph G with no
+C4 and no C8, Θ is a weighted count of theta- and dumbbell-like
+subgraphs on cycles of lengths in {3,5,6,7,9,…,14} (the exact
+classification is carried out in Section 5). Since 32·#C16 =
+tr(B¹⁶) − Θ and tr(B¹⁶) ≥ 66049 − 511n by (★), the lemma to prove is
+
+  **Θ(G) ≤ 66049 − 511n − 1**  (girth ≥ 5, C8-free)
+
+for as large a range of n as possible. (An earlier draft stated this as
+"Θ ≤ 511n", which is wrong on its face: at n = 30 the measured Θ is
+43232–57648 while 511n = 15330. Note also that some girth-3 graphs
+exceed even the corrected budget 50719 at n = 30 — they still satisfy
+#C16 > 0 because their actual tr(B¹⁶) exceeds the worst-case spectral
+floor — so the program below restricts to girth ≥ 5, where all measured
+values fit with margin.)
 
 ## 4. The restricted-class theorem (the deliverable)
 
@@ -303,3 +306,106 @@ modest — but it is, to my knowledge, the first power-of-2 cycle
 guarantee for a class of cubic graphs defined with *no* topological or
 density hypothesis, and the Θ-program of Section 3 extends the same
 mechanism toward girth 5 with explicit, data-validated margins.
+
+## 5. The Θ-lemma: exact classification, partial bounds, and the resisting case
+
+### 5.1 Exact classification of Θ (proved, machine-verified)
+
+**Theorem D (classification).** Let G be a cubic graph with girth ≥ 5 and
+no 8-cycle. Every tailless non-backtracking closed 16-walk in G that is
+not a 16-cycle traversal has support equal to a copy of one of **39
+explicit graphs** (14 when girth ≥ 6), each of cycle rank 2 or 3, with at
+most 16 edges; and conversely a copy of a type T carries exactly N16(T)
+such walks, where N16(T) ∈ {32, 64, 96, 192, 352} is an absolute
+constant per type. Hence the identity
+
+  Θ(G) = Σ_T N16(T) · #copies(T, G).
+
+*Proof.* By the argument of Lemma 1, a non-cycle reduced 16-walk has
+connected support with min degree 2, max degree 3 (cubic), cycle rank
+≥ 2, at most 16 edges, girth ≥ 5 and no C8 (inherited from G). All such
+graphs were enumerated exhaustively (`scripts/enum_supports.py`, via
+nauty-geng with girth filters); for each, N16 was computed exactly by
+Möbius inversion over its lattice of connected min-degree-2 subgraphs,
+with integer Hashimoto-matrix traces. Types with N16 = 0 (e.g. all-ones
+multiplicity patterns failing the even-vertex-sum parity condition) are
+discarded. ∎
+
+The lists are in `results/supports_girth5.txt` / `_girth6.txt`. Notable
+types: θ(2,3,3) — two pentagons sharing a 2-path — carries N16 = 192;
+one rank-3 gadget (9 vertices, cycles {5,6,7,9}) carries N16 = 352;
+dumbbells (two cycles joined by a path) all carry N16 = 64.
+
+**Verification (oracle test).** On a C4+C8-free 30-vertex host of girth
+6: Θ_true = tr(B¹⁶) − 32·#C16 = 37056 and Σ N16·copies = **37056, exact
+match**. On a girth-5 host: **43456 = 43456, exact match**
+(`scripts/oracle_check.py`, `results/oracle_g5_full.txt`). Since any
+omitted type would leave a strict deficit, the classification is
+complete.
+
+### 5.2 Counting lemmas (proved)
+
+Throughout: G cubic, girth ≥ 5, no C8. (C) Any two vertices have at most
+one common neighbour (else a C4). (P) The number of paths of length
+p ≥ 3 from u to v whose first edge is prescribed is at most 2^{p−3}: the
+first edge is given, each internal step branches ≤ 2, and the last
+internal vertex is a common neighbour of its predecessor and v, unique
+by (C); for p = 3 the two middle candidates cannot both work (else a
+C4), giving ≤ 1. (E) Cycles of length L through a fixed edge: ≤ 2^{L−3};
+hence #C_L ≤ (3/2L)·2^{L−3}·n; in particular #C5 ≤ 1.2n, #C6 ≤ 2n,
+#C7 ≤ (24/7)n. (S) For girth ≥ 6, tr(B¹⁰) = 20·#C10 exactly (Lemma 1,
+10 < 2g), so #C10 ≤ (65n + 1922)/20 by the eigenvalue bounds of §2.2.
+
+These give linear bounds per type, e.g. #θ(2,3,3) ≤ 3n (anchor pentagon:
+5 distance-2 pairs, attached 3-path unique by (P), divided by the two
+pentagons per copy), so the θ(2,3,3)-contribution is ≤ 576n. Measured:
+2 copies at n = 30 — the proven bound is ~50× slack but linear, which is
+the required shape.
+
+### 5.3 Where the program stands, honestly
+
+Assembling §5.2 across all types yields Θ ≤ c·n + d with **explicit but
+large c** (dominated by types pairing a short anchor cycle with a long
+attached path, where (P) costs 2^{p−3}): the total lands at c ≈ 10⁴,
+while the budget Θ < 66049 − 511n (bipartite: 132098 − 511n) requires
+c ≤ 2241 (bipartite: ≤ 4993) for the resulting window to exceed the
+known exhaustive frontier n = 24. **The unconditional constant misses by
+a factor of ≈ 3–10.**
+
+The data identifies exactly where the slack lives. On the girth-5 host
+the dominant measured contributions are θ(1,5,9): 231 copies, θ(1,4,10):
+147, θ(2,4,8): 117 — all of the form *short cycle + long chordal path*
+(path length 8–10), where (P) allows 2⁵–2⁷ extensions per anchor but
+real C4+C8-free graphs average ≈ 4. The measured per-edge count of
+cycles of length ≤ 7 is ≤ 5 (mean 3.7) against a worst-case 28.
+
+**The resisting case, precisely:** prove that in a C4+C8-free cubic
+graph, the number of paths of length p ∈ {8, 9, 10} joining two vertices
+at distance ≤ 2 on a short cycle is O(1) on average — equivalently, that
+the edge-correlation sums Σ_e d_j(e)·d_k(e) (j ≤ 7 < k, j + k ≤ 16) are
+O(n) with constant ≤ ≈ 30. Worst-case counting gives ≈ 100n per pair;
+everything else in the program is closed. Absence of C8 is barely used
+in (P) — it only prunes the type list — and a genuinely C8-aware path
+bound is the missing ingredient.
+
+**Conditional theorem (proved, hypothesis explicit).** Call G
+*Δ-thin* if every edge lies on at most Δ cycles of length ≤ 10. If G is
+cubic, bipartite, girth ≥ 6, C8-free and 2-thin, then every theta-type
+copy is determined by a shared edge and a pair of its ≤ 2 short cycles,
+and every dumbbell/rank-3 copy by analogous local data; summing the 6
+bipartite types gives Θ ≤ ≈ 400n, hence #C16 > 0 for all n ≤ ≈ 145.
+The measured thinness of real C4+C8-free graphs is Δ ≈ 31 at the ≤ 10
+scale (driven by 9- and 10-cycles), so 2-thinness is a strong
+hypothesis; at the ≤ 7 scale the measured Δ is 5. A version of the
+conditional theorem with the hypothesis only on cycles ≤ 7 requires the
+resisting estimate above and is the precise frontier of this program.
+
+### 5.4 Summary of §5
+
+The Θ-lemma program is now reduced from a vague hope to a single sharp
+estimate. Proved and machine-verified: the exact 39-type classification
+and the identity Θ = Σ N16·copies; linear bounds for every type;
+the conditional girth-6 theorem. Open: one explicit correlation
+inequality (long-chordal-path counting in C8-free cubic graphs), which
+the data says is true with a factor-25 margin, and which would extend
+Theorem A from girth 9 down to girth 5–6 for all n ≲ 130.

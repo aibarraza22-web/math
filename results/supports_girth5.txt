@@ -1,0 +1,41 @@
+=== supports with N16 > 0 (girth >= 5, no C8, e <= 16) ===
+N16=   352  v= 9 e=11 cycles=[5, 6, 7, 9]           H?`acgi
+N16=   192  v= 7 e= 8 cycles=[5, 6]           FCR`o
+N16=   192  v=11 e=13 cycles=[5, 6, 7, 9, 10]           J?AEB?oFCP?
+N16=   192  v=11 e=13 cycles=[5, 6, 7, 10]           J?AEB?WLCQ?
+N16=    96  v=11 e=13 cycles=[6, 7, 9, 10]           J?AAD?wTCS?
+N16=    96  v=11 e=13 cycles=[5, 6, 7, 9, 10]           J?AEB?oFDO?
+N16=    96  v=11 e=13 cycles=[5, 6, 7, 10, 11]           J?AEB?WLDO?
+N16=    96  v=11 e=13 cycles=[5, 6, 7, 9, 10]           J?ABAaGJCc?
+N16=    96  v=12 e=14 cycles=[6, 7, 10, 12]           K??ED@OB?qCc
+N16=    96  v=12 e=14 cycles=[5, 6, 9, 10, 12]           K??ED?WD@SGg
+N16=    96  v=12 e=14 cycles=[5, 6, 7, 9, 10, 12]           K?AAD@OI?wCo
+N16=    64  v=10 e=11 cycles=[6, 10] bipartite I?BDA_ge?
+N16=    64  v=10 e=12 cycles=[5, 6, 7, 9, 10]           I?`D@`Wd?
+N16=    64  v=12 e=14 cycles=[6, 7, 9]           K??ED?WDB_@o
+N16=    64  v=12 e=14 cycles=[6, 10] bipartite K??ED?WDBOP_
+N16=    64  v=12 e=14 cycles=[5, 6, 7, 9, 11]           K??ED?WDBO@o
+N16=    64  v=12 e=13 cycles=[5]           K?AA@AOQ@g@W
+N16=    64  v=12 e=13 cycles=[6, 10] bipartite K?AA@AOEBO?w
+N16=    64  v=12 e=14 cycles=[5, 6, 7, 9, 10]           K?AAD@OIAWQO
+N16=    64  v=12 e=14 cycles=[5, 6, 7, 9, 10]           K?AAD@OI?wEO
+N16=    64  v=12 e=14 cycles=[5, 6, 7, 10, 11]           K?AAD@OI?sH_
+N16=    64  v=13 e=14 cycles=[6] bipartite L???EA_E?gKOB_
+N16=    64  v=13 e=14 cycles=[5, 7]           L??CAA_S@O@oDO
+N16=    64  v=14 e=15 cycles=[7]           M??CAA_K?cH?B?`O?
+N16=    64  v=14 e=15 cycles=[5, 9]           M??CAA_Ga_B?B?`O?
+N16=    32  v= 8 e= 9 cycles=[5, 6, 7]           G?`e`o
+N16=    32  v= 9 e=10 cycles=[5, 6, 9]           H?bB@`W
+N16=    32  v=10 e=11 cycles=[6, 7, 9]           I?AE@`gF?
+N16=    32  v=11 e=13 cycles=[5, 6, 9, 10]           J?ABAaGJD_?
+N16=    32  v=12 e=13 cycles=[5, 10, 11]           K??CB@OICg@o
+N16=    32  v=12 e=13 cycles=[7, 9, 10]           K??CB@OBDOAo
+N16=    32  v=12 e=14 cycles=[5, 6, 9, 12]           K??ED?WD@SGc
+N16=    32  v=12 e=14 cycles=[5, 6, 9, 12]           K?AAD@OI?sE_
+N16=    32  v=13 e=14 cycles=[6, 10, 12] bipartite L???EA_S?WDOD_
+N16=    32  v=13 e=14 cycles=[7, 9, 12]           L??CAA_S@OB_@o
+N16=    32  v=13 e=14 cycles=[5, 11, 12]           L??CAA_K?oH_@o
+N16=    32  v=14 e=15 cycles=[6, 10, 14] bipartite M???EA_S@OA_A_P_?
+N16=    32  v=14 e=15 cycles=[7, 9, 14]           M???EA_S@OA_A_@o?
+N16=    32  v=14 e=15 cycles=[5, 11, 14]           M???EA_S@OA_A_@c?
+total types: 39
