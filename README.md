@@ -43,7 +43,10 @@ graph is itself cubic, so a *minimal* counterexample is connected.)
 - Famous graphs (Petersen, Heawood, Pappus, Desargues, McGee,
   Tutte–Coxeter) all report first power 8, matching their known cycle
   spectra.
-- RESULTS_PLACEHOLDER_MARKSTROM
+- The exhaustive n = 24 sweep found **exactly four** cubic graphs with no
+  4-cycle and no 8-cycle — independently replicating Markström's 2004
+  count — and each was re-verified with networkx (full cycle spectrum;
+  see `results/n24_special.g6` and `scripts/analyze_special.py`).
 
 ## Results
 
@@ -62,7 +65,7 @@ for all cubic graphs of these orders:
 | 18 | 2,761 | all have C8 | 0 |
 | 20 | 36,101 | all have C8 | 0 |
 | 22 | 553,227 | all have C8 | 0 |
-| 24 | N24_PLACEHOLDER | N24_DETAIL_PLACEHOLDER | 0 |
+| 24 | 9,467,449 | C8 except four graphs with C16 | 0 |
 
 A striking pattern: **every** C4-free cubic graph with n ≤ 22 contains an
 8-cycle. The first graphs that dodge both C4 and C8 appear at n = 24
@@ -78,7 +81,26 @@ Z_n with connection set {±a, n/2}.
 ### Heuristic hunt past the frontier (n = 30, 46, 62)
 
 Simulated annealing over cubic graphs, minimizing power-of-2 cycle
-counts. HUNT_PLACEHOLDER
+counts. A single combined objective stalls (it never finds a C4+C8-free
+graph at n = 30), but a two-phase decomposition works: phase 1 minimizes
+only `10000·#C4 + 100·#C8`, then phase 2 anneals from those graphs with
+the full objective and a cold start.
+
+Findings at n = 30 (the first size beyond the literature's exhaustive
+frontier; cubic graphs have even order and 30 < 32, so a counterexample
+needs only to avoid C4, C8, C16):
+
+- Phase 1 finds C4+C8-free cubic graphs on 30 vertices within seconds;
+  one 10M-iteration run collected **1,517 pairwise non-isomorphic** ones.
+- Every one of them contains between **249 and 956 sixteen-cycles**
+  (median 438). Phase-2 annealing from the best seeds reduced the
+  minimum to 210 sixteen-cycles, far from the 0 a counterexample needs.
+- Empirically, forbidding 8-cycles in a cubic graph this small *forces*
+  an abundance of 16-cycles — the same rigidity visible at n = 24, where
+  only four C4+C8-free graphs exist and all contain 16-cycles.
+
+The same pipeline at n = 36, 48, 62 (where 32-cycles are also forbidden)
+is in `scripts/hunt2.sh`; see `results/hunt/`.
 
 ## Reproducing
 
