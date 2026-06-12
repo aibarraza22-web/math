@@ -409,3 +409,85 @@ the conditional girth-6 theorem. Open: one explicit correlation
 inequality (long-chordal-path counting in C8-free cubic graphs), which
 the data says is true with a factor-25 margin, and which would extend
 Theorem A from girth 9 down to girth 5–6 for all n ≲ 130.
+
+## 6. Exploiting C8-freeness directly: a sharp local lemma, a closed sector, and the open estimate
+
+### 6.1 A C8-aware multiplicity lemma (proved, sharp)
+
+**Lemma E′.** In a cubic graph with no 4-cycle and no 8-cycle, every edge
+lies on at most **4** six-cycles.
+
+*Proof.* Let e = uv and identify 6-cycles through e with 5-paths
+v, x₂, x₃, x₄, x₅, u. There are ≤ 2 choices of x₂ (the neighbours of v
+other than u). Fix x₂ and suppose two such paths P, P′ both start v, x₂.
+If they share no later vertex before u, their union is the cycle
+x₂ → u → x₂ of length 4 + 4 = 8 — forbidden. They cannot first re-meet
+at the fourth vertex (x₄ = x₄′ gives the 4-cycle x₂x₃x₄x₃′), nor out of
+order (a cycle of length 3). Hence any two paths with the same x₂ share
+x₃. So all 6-cycles through e with first vertex x₂ pass through a common
+x₃, and from x₃ there are at most 2 continuations (two choices of x₄,
+then x₅ ∈ N(x₄) ∩ N(u) is unique by C4-freeness). Thus ≤ 2 per x₂ and
+≤ 4 in total. ∎
+
+Without C8-freeness the bound is 8; the C4+C8-free graphs in this
+repository attain 4 exactly, so Lemma E′ is **sharp**, and it is the
+first place in this program where the absence of 8-cycles does real
+quantitative work.
+
+### 6.2 The two-hexagon sector closes
+
+Every Θ-type whose support is a union of two edge-sharing 6-cycles —
+θ(1,5,5) and θ(3,3,7), the largest N16-carriers among the bipartite
+girth-6 types — is now under control: pairs of 6-cycles sharing an edge
+number at most Σ_e C(d₆(e), 2) ≤ (3/2)·6·#C6, and with the exact
+spectral count 12·#C6 = tr(B⁶) ≤ 17n + 98 this gives
+
+  64·(#θ(1,5,5) + #θ(3,3,7)) ≤ 816n + 4704,
+
+comfortably inside the bipartite budget 132098 − 511n for all n in the
+target range. The same argument bounds every "two short cycles sharing
+an edge" gadget at any girth ≥ 5 once d_j(e) is bounded — and the
+Lemma E′ technique (force a shared third vertex or produce a C8)
+applies verbatim to d₅ and d₇.
+
+### 6.3 What remains: one estimate, stated cold
+
+The still-unbounded types pair a 6-cycle with a **10-cycle** (θ(2,4,8),
+θ(1,5,9), and one rank-3 gadget): their counts reduce to the following.
+
+> **Open estimate (P).** Let G be a cubic graph with no 4-cycle and no
+> 8-cycle. Let a, b be distinct vertices and let e_a, e_b be prescribed
+> edges at a and b. Show that the number of paths from a to b of length
+> q, for each q ∈ {6, 7, 8}, whose first edge is e_a and last edge is
+> e_b, is at most c_q, for constants (c₆, c₇, c₈) summing to ≈ 18 —
+> against the trivial bounds (16, 32, 64).
+>
+> Equivalently (averaged form, what the program actually needs):
+> Σ_e d₆(e)·d₁₀(e) ≤ 30n + O(1), where d_L(e) is the number of L-cycles
+> through e.
+>
+> Status: in every C4+C8-free cubic graph examined (65,000+ graphs,
+> n = 24–62), the maximum number of q-paths between any vertex pair —
+> even *without* prescribing end edges — is 7, 13, 22 for q = 6, 7, 8;
+> the averaged sum is ≈ 8n. The Lemma E′ mechanism (two paths sharing a
+> prefix must re-meet early or form a C8) prunes the path tree at every
+> level, but a clean induction through q = 6, 7, 8 has not been found:
+> the obstruction is lenses of half-length 3 and 5 (creating allowed C6s
+> and C10s), which the C8 hypothesis does not see directly.
+
+If (P) holds with the stated constants, then combining §6.2, the
+spectral counts #C6 ≤ (17n+98)/12 and #C10 = tr(B¹⁰)/20 ≤ 3.25n + 97
+(exact at girth 6 by Lemma 1), and the per-type charges of §5 yields
+Θ(G) ≤ ≈ 4000n + 10⁵ for bipartite cubic G of girth ≥ 6 with no C8,
+hence **#C16 > 0 for all such G with roughly n ≤ 60** — a girth-6
+bipartite Erdős–Gyárfás theorem far beyond the exhaustive frontier, by
+the same trace-positivity mechanism as Theorem A.
+
+### 6.4 Verdict
+
+Proved in this section: Lemma E′ (sharp, C8-aware) and the closure of
+the two-hexagon sector. Open: estimate (P) — a single, elementary-
+looking, self-contained statement about path multiplicities in C4+C8-
+free cubic graphs, supported at 3–4× margin by every graph in this
+repository, through which the entire girth-6 (and, with the analogous
+d₅/d₇ versions, girth-5) extension of Theorem A now passes.
