@@ -90,8 +90,15 @@ static long long count_cycles(int L) {
 #define C16_PROXY 50000LL
 
 static int phase1 = 0;   /* minimize only C4+C8, ignore longer cycles */
+static int shortg = 0;   /* if >0: minimize all cycles of length < shortg (girth mode) */
 
 static long long objective(void) {
+    if (shortg > 0) {
+        long long f = 0;
+        for (int L = 3; L < shortg; L++)
+            f += (long long)(1 << (shortg - L)) * count_cycles(L);
+        return f;
+    }
     long long c4 = count_cycles(4);
     long long c8 = count_cycles(8);
     long long f = 10000*c4 + 100*c8;
@@ -197,6 +204,7 @@ int main(int argc, char **argv) {
     if (n % 2 || n < 4 || n > MAXN) { fprintf(stderr, "bad n\n"); return 1; }
     for (int i = 4; i < argc; i++) {
         if (!strcmp(argv[i], "--phase1")) phase1 = 1;
+        else if (!strcmp(argv[i], "--short") && i + 1 < argc) shortg = atoi(argv[++i]);
         else if (!strcmp(argv[i], "--seeds") && i + 1 < argc) {
             FILE *fp = fopen(argv[++i], "r");
             if (!fp) { perror("seeds"); return 1; }
@@ -247,10 +255,10 @@ int main(int argc, char **argv) {
                 since_improve = 0;
                 fprintf(stderr, "iter=%lld T=%.3f best=%lld\n", it, T, best);
                 if (best == 0) {
-                    if (phase1) {
+                    if (phase1 || shortg) {
                         /* found a C4+C8-free graph: record it and keep
                          * hunting for more from a fresh start */
-                        printf("C8FREE ");
+                        printf(phase1 ? "C8FREE " : "HIGHGIRTH ");
                         print_graph6(stdout);
                         fflush(stdout);
                         init_state();
