@@ -560,3 +560,76 @@ a nonvacuous window (n ≈ 30–40); halving three reaches n ≈ 55.
 > c ≈ 8. A proof with c ≤ 30 extends the girth-9 spectral theorem
 > (§2, Theorem A) to all bipartite cubic graphs of girth 6 with
 > n ≲ 60, and with the d₅/d₇ analogues to girth 5.
+
+## 7. The exclusion principle: empirical surface, partial results, and the definitive open problem
+
+### 7.1 The trade-off surface (measured)
+
+Per-edge joint profiles (d₅, d₆, d₇, d₁₀) across C4+C8-free cubic hosts
+(girth 5 and 6, n = 30, eight graphs; girth 9, n = 62, four graphs):
+
+- **Σ_e d₆(e)·d₁₀(e) = 26.3n – 34.1n on every girth-5/6 host, and 0 at
+  girth 9.** The constant 30 in the open estimate of §6.6 is not a
+  target but the measured truth.
+- Pointwise maximum of d₆(e)·d₁₀(e): **42** (at profile d₆ = 3,
+  d₁₀ = 14). Edges attaining the sharp E′ bound d₆ = 4 carry only
+  d₁₀ ∈ {6, 7, 8}; edges with d₆ = 3 reach d₁₀ ≤ 14. The trade-off is
+  real but **soft**: there is no small pointwise wall, only a bounded
+  product and a bounded sum.
+
+### 7.2 Why pointwise exclusion resists the lens mechanism
+
+The forced structure at an E′-tight edge (d₆ = 4) is: each of the two
+first-vertices x₂ has a *common* second vertex x₃ shared by both of its
+6-cycles. A 9-path (10-cycle arc) through the same x₂ diverging from a
+6-cycle and re-meeting it only at the far endpoint creates a lens of
+half-lengths (4, 8) — a 12-cycle, which C8-freeness does not see. All
+fatal lenses between a 6-cycle and a 10-cycle through a shared edge have
+half-length sums in {4, 8}, and the available geometry routes around
+them. This matches the data: heavy-d₆ edges still host up to 8
+ten-cycles. **Pointwise exclusion with a small constant is false as a
+local statement**; only the averaged form survives.
+
+### 7.3 Second moments do not beat the direct bound
+
+Σ_e d₆² ≤ 4·Σ_e d₆ ≤ 34n + 196 is small (Lemma E′), but Σ_e d₁₀² is
+governed by pairs of 10-cycles sharing an edge — θ(k, 10−k, 10−k)
+configurations that C8-freeness leaves almost unconstrained (only
+k = 6, 8 die). The resulting Cauchy–Schwarz bound ≈ 350n is *worse*
+than the direct max(d₆)·Σd₁₀ = 130n + 3844. The convexity loss is not
+where the remaining factor lives; the missing ingredient is genuinely
+the correlation between short- and long-cycle incidence.
+
+### 7.4 What is proved, final inventory
+
+Unconditional, for cubic graphs with no C4 and no C8:
+girth ≥ 9 ⟹ 16-cycles for 58 ≤ n ≤ 129 (Theorem A; 258 bipartite);
+the complete 39/14-type classification of Θ with machine-verified
+exactness; d₆(e) ≤ 4 (sharp); prescribed-end path bounds (8, 16, 32)
+for p = (8, 9, 10); per-(vertex, edge-pair) hexagon bound ≤ 2; every
+Θ-type bounded by an explicit linear function; Θ ≤ 4827n + 65300
+(bipartite, girth ≥ 6); and Σ_e d₆·d₁₀ ≤ 130n + 3844.
+
+### 7.5 The definitive open problem
+
+> **Problem.** Let G be a finite cubic graph with no 4-cycle and no
+> 8-cycle. For an edge e, let d₆(e) and d₁₀(e) be the numbers of 6- and
+> 10-cycles through e. Prove
+>
+>   Σ_e d₆(e)·d₁₀(e) ≤ 30·n(G) + O(1).
+>
+> Known: d₆ ≤ 4 pointwise (sharp), Σd₆ ≤ 8.5n + 49, Σd₁₀ ≤ 32.5n + 961,
+> giving 130n + 3844. Measured on every available C4+C8-free cubic
+> graph: 26n–34n, with pointwise product ≤ 42. Pointwise versions with
+> small constants are FALSE (§7.2); the statement is irreducibly about
+> correlation. A proof (with any constant ≤ ≈ 60, allowing the assembly
+> ≈ 3500n) yields: every bipartite cubic graph of girth ≥ 6 with no
+> 8-cycle on n ≤ ≈ 30–37 vertices contains a 16-cycle — and the d₅, d₇
+> analogues extend the spectral mechanism of Theorem A to all C4+C8-free
+> cubic graphs of girth ≥ 5 in a comparable window. This inequality is
+> the entire remaining distance between the trace-positivity method and
+> an Erdős–Gyárfás theorem at girth 5–6.
+
+The program ends here, in the precise sense that every other estimate it
+needs is proved, machine-verified, or measured to be within a factor of
+2 of its proof.
