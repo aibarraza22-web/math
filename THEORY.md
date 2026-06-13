@@ -633,3 +633,45 @@ for p = (8, 9, 10); per-(vertex, edge-pair) hexagon bound ≤ 2; every
 The program ends here, in the precise sense that every other estimate it
 needs is proved, machine-verified, or measured to be within a factor of
 2 of its proof.
+
+## 8. Coda: the rotation diagnostics and the final form of the problem
+
+Three proposed assemblies were tested against the dataset before any
+proof attempt (the standing rule of this program):
+
+1. **Opposite-edge transfer.** Rotating T = Σ_e d₆d₁₀ across decagons
+   gives T = Σ_f A(f) with A(f) = Σ_{D∋f} d₆(opp_D(f)) and mean exactly
+   20 = T/m. Measured: A(f) ranges 8–38. The pointwise lemma A ≤ 20 is
+   **false**; the rotation centres the distribution but has no slack.
+2. **Hexagon discharging.** T = Σ_H q(H) with q(H) = Σ_{e∈H} d₁₀(e):
+   measured q ∈ [52, 105] against hexagon density |H| ≈ 0.4n, making
+   the discharging identity Σ_H (q−30) ≤ 5Σ_e (4−d₆) nearly *tight* on
+   real hosts (545 vs 558 on one host — in fact violated, see below).
+   No bounded-radius payment scheme has room to operate.
+3. **Classwise splitting (the clean finding).** Average d₁₀ over the
+   class E_i = {e : d₆(e) = i} is strictly decreasing in i:
+   15.7, 15.3, 12.9, 10.3, 6.4 for i = 0…4. The exclusion principle is
+   real, *classwise and smooth* rather than pointwise; the i = 2 class
+   carries 60% of T.
+
+**Correction to §7.5.** Measured T reaches 34.1n on a girth-6 host, so
+the constant in the open problem must be ≥ 35. The assembly tolerates
+any constant ≤ ≈ 60, so the problem stands with the corrected form:
+
+> In a cubic graph with no C4 and no C8, prove
+>   Σ_e d₆(e)·d₁₀(e) ≤ 35·n + O(1)
+> (measured: 26n–34n; provable: 130n + 3844). Pointwise, opposite-edge,
+> and naive hexagon-discharging forms are all false or tight-with-no-room
+> — the statement is irreducibly a smooth classwise correlation, and the
+> measured class profile (avg d₁₀ | d₆ = i) = 15.7, 15.3, 12.9, 10.3,
+> 6.4 is the shape any proof must reproduce. The most plausible
+> remaining route is a radius-5 rooted-edge local LP / flag-algebra
+> certificate: d₆ is radius-3 and d₁₀ radius-5 information, all
+> pointwise lemmas of this program (E′, P′, the 2-per-(w, pair) hexagon
+> bound) become constraints on rooted types, and the dual solution of a
+> feasible LP is a machine-checkable discharging proof — the same
+> methodology that proved the planar case of Erdős–Gyárfás.
+
+This is where the program ends: one corrected, data-pinned, LP-shaped
+inequality between the trace-positivity method and an Erdős–Gyárfás
+theorem for C4+C8-free cubic graphs of girth 5–6 at n ≲ 30–60.
