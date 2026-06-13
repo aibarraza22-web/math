@@ -136,6 +136,9 @@ Then the set L(G) of cycle lengths contains **every** integer in
   L(G) ⊇ [9,29]. **Zero** graphs miss any length in [9, c].
 - n = 36 and n = 48 samples (120 each): every one contains all of
   [9, 18] ⊇ {16}.
+- n = 60 adversarial check (60 annealer-generated graphs, the regime
+  where gaps would most plausibly appear): every one contains all of
+  [9, 16] ⊇ {16} — 0 gaps.
 - The four Markström extremal graphs (n = 24): L = [9,24] ∪ {3,6,7}
   (∪{5} for one), i.e. gap-free on [9,24].
 - Even girth-9 graphs (n = 62) fill [9,20].
