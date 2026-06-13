@@ -491,3 +491,72 @@ looking, self-contained statement about path multiplicities in C4+C8-
 free cubic graphs, supported at 3–4× margin by every graph in this
 repository, through which the entire girth-6 (and, with the analogous
 d₅/d₇ versions, girth-5) extension of Theorem A now passes.
+
+### 6.5 Final round: lens-pruned path bounds and the assembled constant
+
+Correction to §6.3 as stated: the gadget-attached paths have length
+p ∈ {8, 9, 10} with both terminal edges prescribed; the trivial bounds
+are 2^{p−4} = (16, 32, 64) (free interior of length p−2, last interior
+vertex unique by C4-freeness).
+
+**Lemma P′ (lens pruning).** In a cubic graph with no C4 and no C8, the
+number of paths of length 8 (resp. 9) between fixed endpoints with both
+terminal edges prescribed is at most **8** (resp. **16**) — half the
+trivial bound.
+
+*Proof for p = 8.* The free interior is a 6-path α,z₁,…,z₅,β between
+fixed α, β. Suppose two such paths share α,z₁,z₂ and then diverge. If
+they next re-meet only at β, their union contains the lens z₂ → β of
+half-lengths (4,4): an 8-cycle, forbidden. Re-meeting at z₄-level gives
+a (2,2)-lens (a C4), forbidden; so they must share z₅. But two paths
+with the same z₃ and different z₄ re-meeting at z₅ form a (2,2)-lens,
+forbidden; hence per choice of z₃ (≤ 2) the continuation is unique:
+≤ 2 paths per prefix (z₁, z₂), and ≤ 4 prefixes, so ≤ 8. The p = 9 case
+is identical one level deeper. ∎
+
+Measured maxima across the dataset: 5, 9, 12 for p = 8, 9, 10 — the
+proven (8, 16, 32) are within 2–3× of reality.
+
+**The last unbounded type closes.** The rank-3 bipartite gadget
+(12 vertices, 14 edges, cycle lengths {6,10}) is a 6-cycle two of whose
+edges are the "tips" of two 2-paths, joined by two arcs whose interiors
+are free paths between *fixed* vertices with prescribed terminal edges
+of length ≤ 5 — each unique by Lemma (P). Hence its count is at most
+15·#C6 ≤ 21.3n + 123, contribution ≤ 1363n + 7.9k (down from 8320n).
+Similarly θ(2,4,8) and θ(1,5,9), anchored on their 10-cycle with the
+short attached path unique or ≤ 1 by (C)/(P), cost 1040n + 31k and
+520n + 15.4k.
+
+**Assembled total (bipartite, girth ≥ 6, C8-free, all lemmas above):**
+
+  Θ(G) ≤ 4827n + 65300.
+
+Budget: Θ < 132098 − 511n. The window closes only for n ≤ 12 —
+**vacuous**, since exhaustive search already covers n ≤ 24. The measured
+truth is Θ ≈ 1235n with negligible constant (window n ≈ 75): every
+sector of the proven bound is now linear with explicit constants, and
+every sector is uniformly ≈ 4× above its measured value. No single
+estimate blocks the theorem any more; what blocks it is the *product*
+of four factor-2-ish losses: the spectral upper bound on #C10 (≈ 2×),
+the per-edge multiplicity d₆ ≤ 4 vs measured average ≈ 1.5, the
+prescribed-path bounds (8, 16, 32) vs measured (5, 9, 12), and
+pair-counting convexity. Halving any two of them closes the theorem for
+a nonvacuous window (n ≈ 30–40); halving three reaches n ≈ 55.
+
+### 6.6 The open estimate, stated cold (final form)
+
+> Let G be a finite cubic graph containing no cycle of length 4 and no
+> cycle of length 8. For an edge e and L ≥ 5 let d_L(e) be the number of
+> L-cycles of G through e. Prove that
+>
+>   Σ_e d₆(e)·d₁₀(e) ≤ 30·n(G) + O(1),
+>
+> or more generally Σ_e d_j(e)·d_k(e) = O(n) with comparable constants
+> for j ∈ {5,6,7}, k ∈ {9,10}. Known: d₆(e) ≤ 4 (sharp; Lemma E′),
+> Σ_e d₆(e) ≤ 8.5n + 49, Σ_e d₁₀(e) ≤ 65n/2 + 961 (spectral, exact at
+> girth 6), and the per-pair bounds of Lemma P′; these give
+> Σ_e d₆d₁₀ ≤ 130n + 3844, a factor ≈ 4 short. Every C4+C8-free cubic
+> graph tested (65,000+, orders 24–62) satisfies the inequality with
+> c ≈ 8. A proof with c ≤ 30 extends the girth-9 spectral theorem
+> (§2, Theorem A) to all bipartite cubic graphs of girth 6 with
+> n ≲ 60, and with the d₅/d₇ analogues to girth 5.
