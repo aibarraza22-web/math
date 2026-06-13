@@ -675,3 +675,50 @@ any constant ≤ ≈ 60, so the problem stands with the corrected form:
 This is where the program ends: one corrected, data-pinned, LP-shaped
 inequality between the trace-positivity method and an Erdős–Gyárfás
 theorem for C4+C8-free cubic graphs of girth 5–6 at n ≲ 30–60.
+
+## 9. A new direction: the cycle-spectrum interval (idea-generation session)
+
+The prior sections exhausted the trace/local toolkit (see `AUDIT.md` for
+the moment-method death result). This section records a genuinely
+different framing, developed in `IDEAS.md`, with its claims labeled
+proved / machine-verified / open.
+
+**Empirical law (machine-verified).** Every cubic graph with no C4 and no
+C8 examined has cycle-length set L(G) ⊇ [9, c(G)] (c = circumference):
+gap-free upper spectrum. Evidence: 1517/1517 graphs at n=30 (5 are
+non-Hamiltonian, c=29, and fill [9,29]; circumference 30 in 299/300
+sampled, 29 in 1); 120/120 at each of n=36, n=48 fill [9,18]; the four
+Markström graphs fill [9,24]; girth-9 graphs at n=62 fill [9,20].
+**Control (machine-verified):** generic cubic graphs (C4/C8 allowed) have
+internal spectrum gaps 17% of the time (n=14) — so gap-freeness is a real
+consequence of C8-freeness, not a triviality.
+
+**Reduction Theorem (proved).** Define the
+> **Interval Conjecture (IC):** every 3-connected cubic graph with no C4
+> and no C8 contains a 16-cycle.
+Then IC ⟹ Erdős–Gyárfás for all cubic graphs. *Proof:* a minimum EG
+counterexample is 3-connected cubic (standard); if it has a C4 or C8 it
+is no counterexample; otherwise n ≤ 24 is settled by the exhaustive
+sweep (`results/n24/`) and n ≥ 25 by IC. ∎
+
+**Girth partition (proved decomposition).** A {C4,C8}-free cubic graph
+has girth ∈ {3,5,6,7} or ≥ 9. Theorem A (§2) proves IC for girth ≥ 9,
+58 ≤ n ≤ 129. The complementary target is girth ∈ {3,5,6,7}, where the
+data shows gap-free [9,c] and where traces provably fail. The two methods
+tile the problem (open sliver: girth ≥ 9, n > 129).
+
+**Parity-Bridging Lemma (open) — the isolated stall.** To prove IC by
+ear/rotation surgery it suffices that, in a 2-connected cubic C4+C8-free
+graph, ℓ, ℓ+2 ∈ L(G) with 9 ≤ ℓ < c ⟹ ℓ+1 ∈ L(G). The ear-surgery
+identity (a cycle of length ℓ plus an ear of length p attaching at arc
+distances a, ℓ−a yields cycles ℓ, a+p, ℓ−a+p) is exact and proved; the
+missing step is a parity argument forcing an opposite-parity ear, which
+is where the unused C8-free hypothesis must enter. Data: no spectrum gap
+of any size occurs in 1517/1517 n=30 graphs, so the hypothesis of the
+lemma's failure is never realised.
+
+**Status.** This direction is non-local (passes the campaign's death-test:
+its surgery is global, not a trace/local count/pointwise bound),
+data-supported, and reduces cubic-EG to a single well-posed interval
+statement. It is the recommended successor to the trace program; the
+full ranked framework assessment is in `IDEAS.md`.
